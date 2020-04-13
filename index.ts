@@ -1,59 +1,95 @@
 import compile = WebAssembly.compile;
+// import { Tasks } from "./strings";
+// import {assignmentStrings} from "./strings";
 
-class Tasks {
-    list :  Array<{id: number, text: string, complete: false, active: boolean, handler: (any) => any}>
-    constructor() {
-        this.list  = [{id: 1, text: 'Create an application that prompts the user for their name. Then, find the ' +
-                'length of characters in the person’s name.  Use the alert method to ' +
-                'display the result.', complete: false,  active: false, handler: () => {}},
-            {id: 2, text: 'Create an application that prompts the user for their name. Then, prompt the user for ' +
-                    'a numeric value so that they can find the letter in the string based on the number they specify.' +
-                    ' Use the alert method to display the result.', complete: false,  active: false, handler: () => {}},
-            {id: 3, text: 'Create an application that prompts the user for their first name. Then, prompt the user for ' +
-                    'their last name using a second prompt. Use the alert method to display the text "Your name is: "' +
-                    ' along with the result of the first name and last name concatenated together. You will use a concatenation ' +
-                    'operator to concatenate the literal string with the result ' +
-                    'of the String object method’s result', complete: false,  active: false, handler: () => {}},
-            {id: 4, text: 'Create an application that stores the text “The quick brown fox jumps over the lazy dog” ' +
-                    'within a variable. Then, find and display within an alert' +
-                    ' the index of the word “fox”.', complete: false,  active: false, handler: () => {}},
-            {id: 5, text: 'Create an application that stores the text “The quick brown fox jumps over the lazy fox” ' +
-                    'within a variable. Then, find and display within an alert the index ' +
-                    'of the last instance of the word “fox”.', complete: false,  active: false, handler: () => {}},
-            {id: 6, text: 'Create an application that stores the text “The quick brown fox jumped over the lazy dog” ' +
-                    'within a variable. Then, prompt the user for their full name. Then, replace the text “the lazy' +
-                    ' dog” in the variable with the name that the user enters within the prompt. Use the alert method ' +
-                    'to display the result.', complete: false,  active: false, handler: () => {}},
-            {id: 7, text: 'Create an application that stores the text “The quick brown fox jumps over the lazy dog” ' +
-                    'within a variable. Then, prompt the user for a word. Next, search for the word within the string ' +
-                    'that the user enters into the prompt. Use the ' +
-                    'alert method to display the result.',complete: false,   active: false, handler: () => {}},
-            {id: 8, text: 'Create an application that stores the text “The quick brown fox jumps over the lazy dog” ' +
-                    'within a variable called old_string. Then, use slice(), substr(), or substring() to extract the ' +
-                    'words “the lazy dog” from the old_string variable and store that result in a second variable' +
-                    ' called new_string. Use the alert method to display' +
-                    ' the uppercase result of new_string.', complete: false,  active: false, handler: () => {}},
-            {id: 9, text: 'Create an application that stores the text “            ' +
-                    'THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG          ” ' +
-                    'within a variable. Make sure to add space before and after the text so that appears very similar' +
-                    ' to the text here. Use the alert method to display the lowercase result of the variable once the' +
-                    ' space has been trimmed off.', complete: false,  active: false, handler: () => {}},
-            {id: 10, text: 'Create an application that stores the text “the quick brown fox jumps over the lazy dog”' +
-                    ' within a variable. The user clearly forgot to capitalize the first letter in the sentence. ' +
-                    'Programmatically capitalize the first letter in the sentence' +
-                    ' and display the result in an alert.', complete: false,  active: false, handler: () => {}},
-        ]
+//STEP 1
+const handlerStep1 = () => {
+    let name : string | null = prompt('Enter you Name')
+    if (name !== null) { alert(`Your name is ${name.length} long`)}
+}
+//STEP 2
+const handlerStep2 = () => {
+    let name : string | null = prompt('Enter you Name')
+    let orderNumber  = parseInt(prompt('Enter number of letter you want to find')!)
+    if (name !== null) {
+        if (orderNumber < name.length) {
+            alert(`The letter under ${orderNumber} is  ${name[orderNumber - 1]}`)}
+    }
+}
+//STEP 3
+
+//STEP 4
+
+//STEP 5
+
+//STEP 6
+
+//STEP 7
+
+//STEP 8
+
+//STEP 9
+
+//STEP 10
+
+export const assignmentStrings = [{id: 1, text: 'Create an application that prompts the user for their name. Then, find the ' +
+        'length of characters in the person’s name.  Use the alert method to ' +
+        'display the result.', complete: false,  active: false, handler: handlerStep1 },
+    {id: 2, text: 'Create an application that prompts the user for their name. Then, prompt the user for ' +
+            'a numeric value so that they can find the letter in the string based on the number they specify.' +
+            ' Use the alert method to display the result.', complete: false,  active: false, handler: handlerStep2},
+    {id: 3, text: 'Create an application that prompts the user for their first name. Then, prompt the user for ' +
+            'their last name using a second prompt. Use the alert method to display the text "Your name is: "' +
+            ' along with the result of the first name and last name concatenated together. You will use a concatenation ' +
+            'operator to concatenate the literal string with the result ' +
+            'of the String object method’s result', complete: false,  active: false, handler: () => {}},
+    {id: 4, text: 'Create an application that stores the text “The quick brown fox jumps over the lazy dog” ' +
+            'within a variable. Then, find and display within an alert' +
+            ' the index of the word “fox”.', complete: false,  active: false, handler: () => {}},
+    {id: 5, text: 'Create an application that stores the text “The quick brown fox jumps over the lazy fox” ' +
+            'within a variable. Then, find and display within an alert the index ' +
+            'of the last instance of the word “fox”.', complete: false,  active: false, handler: () => {}},
+    {id: 6, text: 'Create an application that stores the text “The quick brown fox jumped over the lazy dog” ' +
+            'within a variable. Then, prompt the user for their full name. Then, replace the text “the lazy' +
+            ' dog” in the variable with the name that the user enters within the prompt. Use the alert method ' +
+            'to display the result.', complete: false,  active: false, handler: () => {}},
+    {id: 7, text: 'Create an application that stores the text “The quick brown fox jumps over the lazy dog” ' +
+            'within a variable. Then, prompt the user for a word. Next, search for the word within the string ' +
+            'that the user enters into the prompt. Use the ' +
+            'alert method to display the result.',complete: false,   active: false, handler: () => {}},
+    {id: 8, text: 'Create an application that stores the text “The quick brown fox jumps over the lazy dog” ' +
+            'within a variable called old_string. Then, use slice(), substr(), or substring() to extract the ' +
+            'words “the lazy dog” from the old_string variable and store that result in a second variable' +
+            ' called new_string. Use the alert method to display' +
+            ' the uppercase result of new_string.', complete: false,  active: false, handler: () => {}},
+    {id: 9, text: 'Create an application that stores the text “            ' +
+            'THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG          ” ' +
+            'within a variable. Make sure to add space before and after the text so that appears very similar' +
+            ' to the text here. Use the alert method to display the lowercase result of the variable once the' +
+            ' space has been trimmed off.', complete: false,  active: false, handler: () => {}},
+    {id: 10, text: 'Create an application that stores the text “the quick brown fox jumps over the lazy dog”' +
+            ' within a variable. The user clearly forgot to capitalize the first letter in the sentence. ' +
+            'Programmatically capitalize the first letter in the sentence' +
+            ' and display the result in an alert.', complete: false,  active: false, handler: () => {}},
+]
+
+export class Tasks {
+    list :  Array<{id: number, text: string, complete: false, active: boolean, handler: (any) => void}>
+    constructor(taskList) {
+        this.list  = taskList
     }
 
-
 }
+
+
 
 class Model {
     todos: any
     onTodoListChanged : any
-
+    activeTask: number | null
     constructor() {
-            this.todos = (localStorage.getItem('todos') !== null ? JSON.parse(localStorage.getItem('todos')!) : new Tasks().list)   // saying localStorage.getItem('todos') is not null
+            this.todos = (localStorage.getItem('todos') !== null ? JSON.parse(localStorage.getItem('todos')!) : new Tasks(assignmentStrings).list)   // saying localStorage.getItem('todos') is not null
+            this.activeTask = null
     }
 
     bindTodoListChanged(callback) {
@@ -80,8 +116,20 @@ class Model {
     }
 
     restartTodos() {
-        this.todos =  new Tasks().list
+        this.todos =  new Tasks(assignmentStrings).list
         this._commit(this.todos)
+    }
+
+    executeTask(value) {
+        if (this.activeTask !== null) {
+            let handler = this.todos[this.activeTask - 1].handler
+            console.log(handler)
+            handler(value)
+        }
+    }
+
+    selectActiveTask(id: number) {
+        this.activeTask = id
     }
 
 }
@@ -90,21 +138,25 @@ class View {
     app: any // add later type of DOM element
     input : any // add later type of DOM element
     todoList: any // add later type of DOM element
+    execButton: any
     title: any
+    _temporaryTodoText : string
     constructor() {
         this.app =  this.getElement('#root')
         this.input = this.createElement('input')
         this.input.type = 'text'
         this.input.placeholder = 'Enter here '
         this.input.name = 'todo'
+        this.execButton = this.createElement('button')
+        this.execButton.innerText = 'EXECUTE TASK'
         this.title = this.createElement('h1')
         this.title.textContent = 'Todos'
         this.todoList = this.createElement('ul', 'todo-list')
 
-        this.app.append(this.input, this.title, this.todoList)
+        this.app.append(this.execButton, this.title, this.todoList)
+        this._temporaryTodoText = ''
         this._initLocalListeners()
     }
-
     displayTodos(todos) {
         // Delete all nodes
         while (this.todoList.firstChild) {
@@ -153,11 +205,9 @@ class View {
                 this.todoList.append(li)
             })
         }
-
         // Debugging
         console.log(todos)
     }
-
 
     getElement(selector: string) {
         const element = document.querySelector(selector)
@@ -174,49 +224,30 @@ class View {
 
     _initLocalListeners() {
         this.input.addEventListener('input', event => {
-            // if (event.target.className === 'editable') {
-            //     this._temporaryTodoText = event.target.innerText
-            // }
-            console.log(event.target)
+            let text = event.target.value
+            this._temporaryTodoText = text
         })
-        this.input.addEventListener('keydown', event => {
-            const { key } = event
-            switch (key) {
-                case "Down": // IE/Edge specific value
-                case "ArrowDown":
-                    // Do something for "down arrow" key press.
-                    break;
-                case "Up": // IE/Edge specific value
-                case "ArrowUp":
-                    // Do something for "up arrow" key press.
-                    break;
-                case "Left": // IE/Edge specific value
-                case "ArrowLeft":
-                    // Do something for "left arrow" key press.
-                    break;
-                case "Right": // IE/Edge specific value
-                case "ArrowRight":
-                    // Do something for "right arrow" key press.
-                    break;
-                case "Enter":
-                    // Do something for "enter" or "return" key press.
-                    console.log('Enter')
-                    break;
-                case "Esc": // IE/Edge specific value
-                case "Escape":
-                    // Do something for "esc" key press.
-                    break;
-                default:
-                    return; // Quit when this doesn't handle the key event.
-            }
-        })
-        this.todoList.addEventListener('click', event => {
-            const {target} = event
-            if (target.matches('button')) {
-         // this.displayTodos()
-            }
-        })
+        // this.todoList.addEventListener('input', event => {
+        //     if (event.target.className === 'editable') {
+        //         this._temporaryTodoText = event.target.innerText
+        //     }
+        // })
+        // this.todoList.addEventListener('click', event => {
+        //     const {target} = event
+        //     if (target.matches('button')) {
+        //  // this.displayTodos()
+        //     }
+        // })
 
+    }
+
+    bindSelectActiveTask(handler) {
+        this.todoList.addEventListener('change', event => {
+            if (event.target.type === 'radio') {
+                const id = parseInt(event.target.parentElement.id)
+                handler(id)
+            }
+        })
     }
 
     bindToggleTodo(handler) {
@@ -247,6 +278,18 @@ class View {
         })
     }
 
+    bindExecuteTask(handler) {
+        this.execButton.addEventListener('click', (event) => {
+            // if (event.key === 'Enter') {
+            //     if (this._temporaryTodoText !== '') {
+            //         handler(this._temporaryTodoText)
+            //     }
+                // code for enter}
+                handler()
+
+        })
+    }
+
 }
 
 class Controller {
@@ -260,6 +303,9 @@ class Controller {
         this.view.bindToggleTodo(this.handleToggleTodo)
         this.view.bindDeleteTodo(this.handleDeleteTodo)
         this.view.bindRestartTodo(this.handleRestartTodo)
+        this.view.bindSelectActiveTask(this.handleActiveTask)
+        this.view.bindExecuteTask(this.handleExecuteTask)
+
         this.onTodoListChanged(this.model.todos)
 
     }
@@ -276,6 +322,14 @@ class Controller {
     handleRestartTodo = () => {
         this.model.restartTodos()
     }
+
+    handleActiveTask = id => {
+        this.model.selectActiveTask(id)
+    }
+    handleExecuteTask = value => {
+        this.model.executeTask(value)
+    }
+
 
 }
 
