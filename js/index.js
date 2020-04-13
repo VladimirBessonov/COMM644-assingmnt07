@@ -1,112 +1,45 @@
-// import { Tasks } from "./strings";
-// import {assignmentStrings} from "./strings";
-//STEP 1
-const handlerStep1 = () => {
-    let name = prompt('Enter you Name');
-    if (name !== null) {
-        alert(`Your name is ${name.length} long`);
-    }
-};
-//STEP 2
-const handlerStep2 = () => {
-    let name = prompt('Enter you Name');
-    let orderNumber = parseInt(prompt('Enter number of letter you want to find'));
-    if (name !== null) {
-        if (orderNumber < name.length) {
-            alert(`The letter under ${orderNumber} is  ${name[orderNumber - 1]}`);
-        }
-    }
-};
-//STEP 3
-//STEP 4
-//STEP 5
-//STEP 6
-//STEP 7
-//STEP 8
-//STEP 9
-//STEP 10
-export const assignmentStrings = [{ id: 1, text: 'Create an application that prompts the user for their name. Then, find the ' +
-            'length of characters in the person’s name.  Use the alert method to ' +
-            'display the result.', complete: false, active: false, handler: handlerStep1 },
-    { id: 2, text: 'Create an application that prompts the user for their name. Then, prompt the user for ' +
-            'a numeric value so that they can find the letter in the string based on the number they specify.' +
-            ' Use the alert method to display the result.', complete: false, active: false, handler: handlerStep2 },
-    { id: 3, text: 'Create an application that prompts the user for their first name. Then, prompt the user for ' +
-            'their last name using a second prompt. Use the alert method to display the text "Your name is: "' +
-            ' along with the result of the first name and last name concatenated together. You will use a concatenation ' +
-            'operator to concatenate the literal string with the result ' +
-            'of the String object method’s result', complete: false, active: false, handler: () => { } },
-    { id: 4, text: 'Create an application that stores the text “The quick brown fox jumps over the lazy dog” ' +
-            'within a variable. Then, find and display within an alert' +
-            ' the index of the word “fox”.', complete: false, active: false, handler: () => { } },
-    { id: 5, text: 'Create an application that stores the text “The quick brown fox jumps over the lazy fox” ' +
-            'within a variable. Then, find and display within an alert the index ' +
-            'of the last instance of the word “fox”.', complete: false, active: false, handler: () => { } },
-    { id: 6, text: 'Create an application that stores the text “The quick brown fox jumped over the lazy dog” ' +
-            'within a variable. Then, prompt the user for their full name. Then, replace the text “the lazy' +
-            ' dog” in the variable with the name that the user enters within the prompt. Use the alert method ' +
-            'to display the result.', complete: false, active: false, handler: () => { } },
-    { id: 7, text: 'Create an application that stores the text “The quick brown fox jumps over the lazy dog” ' +
-            'within a variable. Then, prompt the user for a word. Next, search for the word within the string ' +
-            'that the user enters into the prompt. Use the ' +
-            'alert method to display the result.', complete: false, active: false, handler: () => { } },
-    { id: 8, text: 'Create an application that stores the text “The quick brown fox jumps over the lazy dog” ' +
-            'within a variable called old_string. Then, use slice(), substr(), or substring() to extract the ' +
-            'words “the lazy dog” from the old_string variable and store that result in a second variable' +
-            ' called new_string. Use the alert method to display' +
-            ' the uppercase result of new_string.', complete: false, active: false, handler: () => { } },
-    { id: 9, text: 'Create an application that stores the text “            ' +
-            'THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG          ” ' +
-            'within a variable. Make sure to add space before and after the text so that appears very similar' +
-            ' to the text here. Use the alert method to display the lowercase result of the variable once the' +
-            ' space has been trimmed off.', complete: false, active: false, handler: () => { } },
-    { id: 10, text: 'Create an application that stores the text “the quick brown fox jumps over the lazy dog”' +
-            ' within a variable. The user clearly forgot to capitalize the first letter in the sentence. ' +
-            'Programmatically capitalize the first letter in the sentence' +
-            ' and display the result in an alert.', complete: false, active: false, handler: () => { } },
-];
-export class Tasks {
-    constructor(taskList) {
-        this.list = taskList;
-    }
-}
-class Model {
-    constructor() {
+import { Tasks } from "./strings.js";
+import { assignmentStrings } from "./strings.js";
+var Model = /** @class */ (function () {
+    function Model() {
         this.todos = (localStorage.getItem('todos') !== null ? JSON.parse(localStorage.getItem('todos')) : new Tasks(assignmentStrings).list); // saying localStorage.getItem('todos') is not null
         this.activeTask = null;
     }
-    bindTodoListChanged(callback) {
+    Model.prototype.bindTodoListChanged = function (callback) {
         this.onTodoListChanged = callback;
-    }
-    _commit(todos) {
+    };
+    Model.prototype._commit = function (todos) {
         this.onTodoListChanged(todos);
         localStorage.setItem('todos', JSON.stringify(todos));
-    }
-    toggleTodo(id) {
-        this.todos = this.todos.map(todo => todo.id === id ? { id: todo.id, text: todo.text, active: todo.active, complete: !todo.complete, handler: todo.handler } : todo);
+    };
+    Model.prototype.toggleTodo = function (id) {
+        this.todos = this.todos.map(function (todo) {
+            return todo.id === id ? { id: todo.id, text: todo.text, active: todo.active, complete: !todo.complete, handler: todo.handler } : todo;
+        });
         this._commit(this.todos);
-    }
-    deleteTodo(id) {
-        this.todos = this.todos.filter(todo => todo.id !== id);
+    };
+    Model.prototype.deleteTodo = function (id) {
+        this.todos = this.todos.filter(function (todo) { return todo.id !== id; });
         this._commit(this.todos);
-    }
-    restartTodos() {
+    };
+    Model.prototype.restartTodos = function () {
         this.todos = new Tasks(assignmentStrings).list;
         this._commit(this.todos);
-    }
-    executeTask(value) {
+    };
+    Model.prototype.executeTask = function (value) {
         if (this.activeTask !== null) {
-            let handler = this.todos[this.activeTask - 1].handler;
+            var handler = this.todos[this.activeTask - 1].handler;
             console.log(handler);
             handler(value);
         }
-    }
-    selectActiveTask(id) {
+    };
+    Model.prototype.selectActiveTask = function (id) {
         this.activeTask = id;
-    }
-}
-class View {
-    constructor() {
+    };
+    return Model;
+}());
+var View = /** @class */ (function () {
+    function View() {
         this.app = this.getElement('#root');
         this.input = this.createElement('input');
         this.input.type = 'text';
@@ -121,66 +54,68 @@ class View {
         this._temporaryTodoText = '';
         this._initLocalListeners();
     }
-    displayTodos(todos) {
+    View.prototype.displayTodos = function (todos) {
+        var _this = this;
         // Delete all nodes
         while (this.todoList.firstChild) {
             this.todoList.removeChild(this.todoList.firstChild);
         }
         // Show default message
         if (todos.length === 0) {
-            const p = this.createElement('p');
+            var p = this.createElement('p');
             p.textContent = 'Nothing to do! Start over?';
-            const restartButton = this.createElement('button');
+            var restartButton = this.createElement('button');
             restartButton.innerText = 'RESTART';
             this.todoList.append(p, restartButton);
         }
         else {
             // Create nodes
-            todos.forEach(todo => {
-                const li = this.createElement('li');
+            todos.forEach(function (todo) {
+                var li = _this.createElement('li');
                 li.id = todo.id;
-                const checkbox = this.createElement('input');
+                var checkbox = _this.createElement('input');
                 checkbox.type = 'checkbox';
                 checkbox.checked = todo.complete;
-                const radio = this.createElement('input');
+                var radio = _this.createElement('input');
                 radio.type = 'radio';
                 radio.setAttribute("name", "taskSelector");
                 radio.checked = todo.active;
-                const span = this.createElement('span');
+                var span = _this.createElement('span');
                 span.contentEditable = true;
                 span.classList.add('editable');
                 if (todo.complete) {
-                    const strike = this.createElement('s');
+                    var strike = _this.createElement('s');
                     strike.textContent = todo.text;
                     span.append(strike);
                 }
                 else {
                     span.textContent = todo.text;
                 }
-                const deleteButton = this.createElement('button', 'delete');
+                var deleteButton = _this.createElement('button', 'delete');
                 deleteButton.textContent = 'Delete';
                 li.append(radio, checkbox, span, deleteButton);
                 // Append nodes
-                this.todoList.append(li);
+                _this.todoList.append(li);
             });
         }
         // Debugging
         console.log(todos);
-    }
-    getElement(selector) {
-        const element = document.querySelector(selector);
+    };
+    View.prototype.getElement = function (selector) {
+        var element = document.querySelector(selector);
         return element;
-    }
-    createElement(tag, className) {
-        const element = document.createElement(tag);
+    };
+    View.prototype.createElement = function (tag, className) {
+        var element = document.createElement(tag);
         if (className)
             element.classList.add(className);
         return element;
-    }
-    _initLocalListeners() {
-        this.input.addEventListener('input', event => {
-            let text = event.target.value;
-            this._temporaryTodoText = text;
+    };
+    View.prototype._initLocalListeners = function () {
+        var _this = this;
+        this.input.addEventListener('input', function (event) {
+            var text = event.target.value;
+            _this._temporaryTodoText = text;
         });
         // this.todoList.addEventListener('input', event => {
         //     if (event.target.className === 'editable') {
@@ -193,42 +128,42 @@ class View {
         //  // this.displayTodos()
         //     }
         // })
-    }
-    bindSelectActiveTask(handler) {
-        this.todoList.addEventListener('change', event => {
+    };
+    View.prototype.bindSelectActiveTask = function (handler) {
+        this.todoList.addEventListener('change', function (event) {
             if (event.target.type === 'radio') {
-                const id = parseInt(event.target.parentElement.id);
+                var id = parseInt(event.target.parentElement.id);
                 handler(id);
             }
         });
-    }
-    bindToggleTodo(handler) {
-        this.todoList.addEventListener('change', event => {
+    };
+    View.prototype.bindToggleTodo = function (handler) {
+        this.todoList.addEventListener('change', function (event) {
             if (event.target.type === 'checkbox') {
-                const id = parseInt(event.target.parentElement.id);
+                var id = parseInt(event.target.parentElement.id);
                 handler(id);
             }
         });
-    }
-    bindRestartTodo(handler) {
-        this.todoList.addEventListener('click', event => {
+    };
+    View.prototype.bindRestartTodo = function (handler) {
+        this.todoList.addEventListener('click', function (event) {
             if (event.target.matches('button') && event.target.innerText == 'RESTART') {
                 console.log('RestartTodo');
                 handler();
             }
         });
-    }
-    bindDeleteTodo(handler) {
-        this.todoList.addEventListener('click', event => {
+    };
+    View.prototype.bindDeleteTodo = function (handler) {
+        this.todoList.addEventListener('click', function (event) {
             if (event.target.className === 'delete') {
-                const id = parseInt(event.target.parentElement.id);
+                var id = parseInt(event.target.parentElement.id);
                 console.log('DeleteTodo');
                 handler(id);
             }
         });
-    }
-    bindExecuteTask(handler) {
-        this.execButton.addEventListener('click', (event) => {
+    };
+    View.prototype.bindExecuteTask = function (handler) {
+        this.execButton.addEventListener('click', function (event) {
             // if (event.key === 'Enter') {
             //     if (this._temporaryTodoText !== '') {
             //         handler(this._temporaryTodoText)
@@ -236,27 +171,29 @@ class View {
             // code for enter}
             handler();
         });
-    }
-}
-class Controller {
-    constructor(model, view) {
-        this.onTodoListChanged = todos => {
-            this.view.displayTodos(todos);
+    };
+    return View;
+}());
+var Controller = /** @class */ (function () {
+    function Controller(model, view) {
+        var _this = this;
+        this.onTodoListChanged = function (todos) {
+            _this.view.displayTodos(todos);
         };
-        this.handleToggleTodo = id => {
-            this.model.toggleTodo(id);
+        this.handleToggleTodo = function (id) {
+            _this.model.toggleTodo(id);
         };
-        this.handleDeleteTodo = id => {
-            this.model.deleteTodo(id);
+        this.handleDeleteTodo = function (id) {
+            _this.model.deleteTodo(id);
         };
-        this.handleRestartTodo = () => {
-            this.model.restartTodos();
+        this.handleRestartTodo = function () {
+            _this.model.restartTodos();
         };
-        this.handleActiveTask = id => {
-            this.model.selectActiveTask(id);
+        this.handleActiveTask = function (id) {
+            _this.model.selectActiveTask(id);
         };
-        this.handleExecuteTask = value => {
-            this.model.executeTask(value);
+        this.handleExecuteTask = function (value) {
+            _this.model.executeTask(value);
         };
         this.model = model;
         this.view = view;
@@ -268,5 +205,6 @@ class Controller {
         this.view.bindExecuteTask(this.handleExecuteTask);
         this.onTodoListChanged(this.model.todos);
     }
-}
-const app = new Controller(new Model(), new View());
+    return Controller;
+}());
+var app = new Controller(new Model(), new View());
