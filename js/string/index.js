@@ -82,7 +82,7 @@ const handlerStep10 = () => {
     let old_string = "The quick brown fox jumps over the lazy dog";
     alert(old_string.toUpperCase());
 };
-export const Strings = [{ id: 1, text: 'Create an application that prompts the user for their name. Then, find the ' +
+export const List = [{ id: 1, text: 'Create an application that prompts the user for their name. Then, find the ' +
             'length of characters in the person’s name.  Use the alert method to ' +
             'display the result.', complete: false, active: false, handler: handlerStep1 },
     { id: 2, text: 'Create an application that prompts the user for their name. Then, prompt the user for ' +

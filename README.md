@@ -4,7 +4,7 @@
 
 TS/JS practicing: 
 
-- **Strings and String Manipulation**
+- **Index and String Manipulation**
 - **Math and Math Functions**
 - **Date and Date Functions**
 

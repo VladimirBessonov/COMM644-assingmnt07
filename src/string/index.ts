@@ -91,7 +91,7 @@ const handlerStep10 = () => {
 
 
 
-export const assignmentStrings = [{id: 1, text: 'Create an application that prompts the user for their name. Then, find the ' +
+export const List = [{id: 1, text: 'Create an application that prompts the user for their name. Then, find the ' +
         'length of characters in the person’s name.  Use the alert method to ' +
         'display the result.', complete: false,  active: false, handler: handlerStep1 },
     {id: 2, text: 'Create an application that prompts the user for their name. Then, prompt the user for ' +
@@ -132,11 +132,5 @@ export const assignmentStrings = [{id: 1, text: 'Create an application that prom
             ' and display the result in an alert.', complete: false,  active: false, handler: handlerStep10},
 ]
 
-export class Tasks {
-    list :  Array<{id: number, text: string, complete: false, active: boolean, handler: (any) => void}>
-    constructor(taskList) {
-        this.list  = taskList
-    }
 
-}
 

@@ -1,13 +1,12 @@
-import compile = WebAssembly.compile;
-import { Tasks } from "./strings";
-import {assignmentStrings} from "./strings";
+import { Tasks} from "./task/index";
+import { List } from "./string/index";
 
 class Model {
     todos: any
     onTodoListChanged : any
     activeTask: number | null
     constructor() {
-            this.todos = (localStorage.getItem('todos') !== null ? JSON.parse(localStorage.getItem('todos')!) : new Tasks(assignmentStrings).list)   // saying localStorage.getItem('todos') is not null
+            this.todos = localStorage.getItem('todos') !== null ? JSON.parse(localStorage.getItem('todos')!) : new Tasks(List).list   // saying localStorage.getItem('todos') is not null
             this.activeTask = null
     }
 
@@ -35,7 +34,7 @@ class Model {
     }
 
     restartTodos() {
-        this.todos =  new Tasks(assignmentStrings).list
+        this.todos =  new Tasks(List).list
         this._commit(this.todos)
     }
 
@@ -252,4 +251,4 @@ class Controller {
 
 }
 
-const app = new Controller(new Model(), new View())
+export const app = new Controller(new Model(), new View())
