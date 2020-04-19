@@ -10,10 +10,6 @@ export class Task {
         this.list.push({ name : name, todoList:  taskList })
     }
     restartQuiz(index, arr) {
-         console.log(this.list[index])
-         console.log(this.list[index].todoList)
-        console.log(arr)
-        console.log(arr)
         this.list[index].todoList = arr[index]
     }
 

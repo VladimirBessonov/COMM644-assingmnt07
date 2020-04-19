@@ -51,7 +51,7 @@ class View {
             li.textContent = todos[item].name
             this.menu.append(li)
         }
-        console.log(currentTodos.length)
+
         if (currentTodos.length === 0) {
             const p = this.createElement('p')
             p.textContent = 'Nothing to do! Start over?'
@@ -130,7 +130,6 @@ class View {
             event.preventDefault()
             let el = event.target
             this._activeTab = [...el.parentNode.children].indexOf(el)
-            console.log(this._activeTab)
             handler(this._activeTab)
         })
     }
@@ -147,7 +146,6 @@ class View {
     bindRestartTodo(handler) {
         this.todoList.addEventListener('click', event => {
             if (event.target.matches('button') && event.target.innerText == 'RESTART') {
-                console.log('RestartTodo')
                 handler()
             }
         })
@@ -157,7 +155,6 @@ class View {
         this.todoList.addEventListener('click', event => {
             if (event.target.className === 'delete') {
                 const id = parseInt(event.target.parentElement.id)
-                console.log('DeleteTodo')
                 handler(id)
             }
         })

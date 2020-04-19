@@ -36,9 +36,6 @@ class Model {
         this.todos[this.activeTab].todoList = this.todos[this.activeTab].todoList.map(todo =>
             todo.id === id ? { id: todo.id, text: todo.text, active: todo.active, complete: !todo.complete, handler: todo.handler } : todo
         )
-        // this.todos = this.todos.map(todo =>
-        //     todo.id === id ? { id: todo.id, text: todo.text, active: todo.active, complete: !todo.complete, handler: todo.handler } : todo
-        // )
 
         this._commit(this.activeTab, this.todos)
     }
@@ -51,9 +48,7 @@ class Model {
 
     restartTodos() {
         console.log('start over')
-        console.log(this.activeTab, initTask[this.activeTab], initTask)
         appTask.restartQuiz(this.activeTab, initTask)
-        console.log(appTask.list)
         this.todos =  appTask.list
         this._commit(this.activeTab, this.todos)
     }
