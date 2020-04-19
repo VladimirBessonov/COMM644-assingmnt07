@@ -1,8 +1,11 @@
 {
   "files": [
     "src/main.ts",
-    "src/Task.ts",
-    "src/String.ts"
+    "src/util/Task.ts",
+    "src/tasks/String.ts",
+    "src/mvc/View.ts",
+    "src/mvc/Model.ts",
+    "src/mvc/Controller.ts"
   ],
   "compilerOptions": {
     /* Basic Options */
