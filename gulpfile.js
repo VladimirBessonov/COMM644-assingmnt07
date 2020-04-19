@@ -48,6 +48,6 @@ gulp.task('default', gulp.series(gulp.parallel('copy-html'), function () {
         .pipe(uglify())
         .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest('dist'));
-}, bundle));
+}));
 watchedBrowserify.on('update', bundle);
 watchedBrowserify.on('log', fancy_log);

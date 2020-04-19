@@ -1,7 +1,35 @@
 export class Task {
-    list :  Array<{id: number, text: string, complete: false, active: boolean, handler: (any) => void}>
-    constructor(taskList) {
-        this.list  = taskList
+
+    // list : Array<[{ name: string, todoList: {id: number, text: string, complete: false, active: boolean, handler: (any) => void}}]> | never
+    list : any
+    constructor() {
+        this.list = []
     }
 
+    addList(name: string, taskList ) {
+        this.list.push({ name : name, todoList:  taskList })
+    }
+    restartQuiz(index, arr) {
+         console.log(this.list[index])
+         console.log(this.list[index].todoList)
+        console.log(arr)
+        console.log(arr)
+        this.list[index].todoList = arr[index]
+    }
+
+}
+
+export class Singleton {
+    private static instance : Task
+    // list :  Array<{id: number, text: string, complete: false, active: boolean, handler: (any) => void}>
+    private constructor() {
+
+    }
+
+    static getInstance() {
+        if (!Singleton.instance) {
+            Singleton.instance = new Task()
+        }
+        return Singleton.instance
+    }
 }

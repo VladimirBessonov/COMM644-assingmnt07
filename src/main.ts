@@ -1,56 +1,72 @@
-import {Task as Tasks} from "./Task";
-import { List } from "./String";
+import {Singleton as Task } from "./Task";
+import { List as StringList} from "./String";
 import { List as MathList} from "./Math"
-
+// do I need a singleton here?
+let appTask = Task.getInstance()
+let initTask = [StringList, MathList]
 class Model {
     todos: any
-    mathTodos: any
     onTodoListChanged : any
     activeTask: number | null
+    activeTab: number
     constructor() {
-            this.todos = localStorage.getItem('todos') !== null ? JSON.parse(localStorage.getItem('todos')!) : new Tasks(List).list   // saying localStorage.getItem('todos') is not null
-            this.mathTodos = localStorage.getItem('mathTodos') !== null ? JSON.parse(localStorage.getItem('mathTodos')!) : new Tasks(MathList).list   // saying localStorage.getItem('todos') is not null
+            appTask.addList('Strings', StringList)
+            appTask.addList('Math', MathList)
+            this.todos = localStorage.getItem('todos') !== null ? JSON.parse(localStorage.getItem('todos')!) : appTask.list   // saying localStorage.getItem('todos') is not null
             this.activeTask = null
+            this.activeTab = 0
     }
 
     bindTodoListChanged(callback) {
         this.onTodoListChanged = callback
     }
 
-    _commit(todos : any) {
-        this.onTodoListChanged(todos)
+    _commit(activeTab, todos : any) {
+        this.onTodoListChanged(activeTab, todos)
         localStorage.setItem('todos', JSON.stringify(todos))
     }
 
     toggleTodo(id) {
-        this.todos = this.todos.map(todo =>
+        this.todos[this.activeTab].todoList = this.todos[this.activeTab].todoList.map(todo =>
             todo.id === id ? { id: todo.id, text: todo.text, active: todo.active, complete: !todo.complete, handler: todo.handler } : todo
         )
+        // this.todos = this.todos.map(todo =>
+        //     todo.id === id ? { id: todo.id, text: todo.text, active: todo.active, complete: !todo.complete, handler: todo.handler } : todo
+        // )
 
-        this._commit(this.todos)
+        this._commit(this.activeTab, this.todos)
     }
 
     deleteTodo(id) {
-        this.todos = this.todos.filter(todo => todo.id !== id)
-
-        this._commit(this.todos)
+        this.todos[this.activeTab].todoList = this.todos[this.activeTab].todoList.filter(todo => todo.id !== id)
+        console.log(this.todos)
+        this._commit(this.activeTab, this.todos)
     }
 
     restartTodos() {
-        this.todos =  new Tasks(List).list
-        this._commit(this.todos)
+        console.log('start over')
+        console.log(this.activeTab, initTask[this.activeTab], initTask)
+        appTask.restartQuiz(this.activeTab, initTask)
+        console.log(appTask.list)
+        this.todos =  appTask.list
+        this._commit(this.activeTab, this.todos)
     }
 
     executeTask(value) {
         if (this.activeTask !== null) {
-            let handler = this.todos[this.activeTask - 1].handler
-            console.log(handler)
+            let handler = this.todos[this.activeTab].todoList[this.activeTask - 1].handler
             handler(value)
+
         }
     }
 
     selectActiveTask(id: number) {
         this.activeTask = id
+    }
+
+    selectActiveTab(id: number) {
+        this.activeTab = id
+        this.onTodoListChanged(this.activeTab, this.todos)
     }
 
 }
@@ -63,6 +79,7 @@ class View {
     title: any
     menu: any
     _temporaryTodoText : string
+    _activeTab : number | undefined
     constructor() {
         this.app =  this.getElement('#root')
         this.input = this.createElement('input')
@@ -77,16 +94,38 @@ class View {
         this.menu = this.createElement('ul')
         this.app.append(this.execButton, this.title, this.menu, this.todoList)
         this._temporaryTodoText = ''
+        this._activeTab = 0
         this._initLocalListeners()
     }
-    displayTodos(todos) {
+    displayTodos(activeTab, todos) {
         // Delete all nodes
+        // for (let item in todos) {
+        //     let li = this.createElement('li')
+        //     li.textContent = todos[item].name
+        //     this.menu.append(li)
+        // }
+        while (this.menu.firstChild) {
+            this.menu.removeChild(this.menu.firstChild)
+        }
+
         while (this.todoList.firstChild) {
             this.todoList.removeChild(this.todoList.firstChild)
         }
+        this.displayTasks(activeTab, todos)
+        // Debugging
+        console.log(todos)
+    }
 
-        // Show default message
-        if (todos.length === 0) {
+    displayTasks(activeTab, todos) {
+        let currentTodos = todos[activeTab].todoList
+
+        for (let item in todos) {
+            let li = this.createElement('li')
+            li.textContent = todos[item].name
+            this.menu.append(li)
+        }
+        console.log(currentTodos.length)
+        if (currentTodos.length === 0) {
             const p = this.createElement('p')
             p.textContent = 'Nothing to do! Start over?'
             const restartButton = this.createElement('button')
@@ -95,7 +134,7 @@ class View {
 
         } else {
             // Create nodes
-            todos.forEach(todo => {
+            currentTodos.forEach(todo => {
                 const li = this.createElement('li')
                 li.id = todo.id
 
@@ -127,8 +166,7 @@ class View {
                 this.todoList.append(li)
             })
         }
-        // Debugging
-        console.log(todos)
+
     }
 
     getElement(selector: string) {
@@ -149,18 +187,6 @@ class View {
             let text = event.target.value
             this._temporaryTodoText = text
         })
-        // this.todoList.addEventListener('input', event => {
-        //     if (event.target.className === 'editable') {
-        //         this._temporaryTodoText = event.target.innerText
-        //     }
-        // })
-        // this.todoList.addEventListener('click', event => {
-        //     const {target} = event
-        //     if (target.matches('button')) {
-        //  // this.displayTodos()
-        //     }
-        // })
-
     }
 
     bindSelectActiveTask(handler) {
@@ -169,6 +195,16 @@ class View {
                 const id = parseInt(event.target.parentElement.id)
                 handler(id)
             }
+        })
+    }
+
+    bindSelectActiveTab(handler) {
+        this.menu.addEventListener('click', event => {
+            event.preventDefault()
+            let el = event.target
+            this._activeTab = [...el.parentNode.children].indexOf(el)
+            console.log(this._activeTab)
+            handler(this._activeTab)
         })
     }
 
@@ -202,21 +238,11 @@ class View {
 
     bindExecuteTask(handler) {
         this.execButton.addEventListener('click', (event) => {
-            // if (event.key === 'Enter') {
-            //     if (this._temporaryTodoText !== '') {
-            //         handler(this._temporaryTodoText)
-            //     }
-                // code for enter}
                 handler()
-
         })
     }
+// iterate through appTask.list name
 
-    bindSelectTab(handler) {
-        this.menu.addEventListener('click', (event) => {
-            handler()
-        })
-    }
 
 }
 
@@ -232,13 +258,14 @@ class Controller {
         this.view.bindDeleteTodo(this.handleDeleteTodo)
         this.view.bindRestartTodo(this.handleRestartTodo)
         this.view.bindSelectActiveTask(this.handleActiveTask)
+        this.view.bindSelectActiveTab(this.handleActiveTab)
         this.view.bindExecuteTask(this.handleExecuteTask)
 
-        this.onTodoListChanged(this.model.todos)
-
+        this.onTodoListChanged(this.model.activeTab,this.model.todos)
+        // this.onActiveTabChanged(this.model.activeTab,this.model.todos)
     }
-    onTodoListChanged = todos => {
-        this.view.displayTodos(todos)
+    onTodoListChanged = (activeTab, todos) => {
+        this.view.displayTodos(activeTab, todos)
     }
 
     handleToggleTodo = id => {
@@ -254,6 +281,10 @@ class Controller {
     handleActiveTask = id => {
         this.model.selectActiveTask(id)
     }
+    handleActiveTab = id => {
+        this.model.selectActiveTab(id)
+    }
+
     handleExecuteTask = value => {
         this.model.executeTask(value)
     }
