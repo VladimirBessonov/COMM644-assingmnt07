@@ -1,9 +1,11 @@
 import {List as StringList} from "../tasks/String";
 import {List as MathList} from "../tasks/Math";
+import {List as DataList} from "../tasks/dates";
+import {List as DeathbyList} from "../tasks/deathby";
 import {Singleton as Task} from "../util/Task";
 
 let appTask = Task.getInstance()
-let initTask = [StringList, MathList]
+let initTask = [StringList, MathList, DataList, DeathbyList]
 
 class Model {
     todos: any
@@ -13,6 +15,9 @@ class Model {
     constructor() {
         appTask.addList('Strings', StringList)
         appTask.addList('Math', MathList)
+        appTask.addList('Data', DataList)
+        appTask.addList('Deathby', DeathbyList)
+
         this.todos = localStorage.getItem('todos') !== null ? JSON.parse(localStorage.getItem('todos')!) : appTask.list   // saying localStorage.getItem('todos') is not null
         this.activeTask = null
         this.activeTab = 0
